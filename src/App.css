@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+.select-filtre{
+  width: 100%;
+  text-align: center;
+}
+
+.filterbar
+{
+  margin-top:50px;
+}
+
+.label-filtre{
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.loader{
+  margin-top: 150px;
+}
