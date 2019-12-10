@@ -9,7 +9,7 @@ const handleChangeFiltreLotsMetier = (data, value) =>{
     // On parcours chaque lot de la liste originale qui est dans le store
     data.data.originalListe.forEach((lot) =>{
         // Si la valeur du select qu'on a choisi dans le filtre lots métier est "NO_LOCATION", correspondant au libellé "Autres presatations"
-        if(value == "NO_LOCATION"){
+        if(value === "NO_LOCATION"){
             // On parcours chaque ligne d'un lot
             lot.lignes.forEach((ligne) => {
                 // Si le tableau contenant les localisations d'une ligne est vide
@@ -32,7 +32,7 @@ const handleChangeFiltreLotsMetier = (data, value) =>{
 
     // Si la valeur du select qu'on a choisi dans le filtre lots métier est "NO_LOCATION", le tableau filtered doit être adapté car on a stocker seulement les lignes qui n'ont pas de localisations
     // La listre filtrée doit ressembler à la liste originale au niveau de sa structure soit [{'label' : ... , 'lignes' : [ligne1,ligne2]] mais seul l'attribut lignes nous interesse.
-    if(value == "NO_LOCATION"){
+    if(value === "NO_LOCATION"){
         filtered = [{'lignes' : lignes}];
     }  // Sinon on ne touche pas au tableau filtered qui a déjà la bonne structure
     
@@ -51,7 +51,7 @@ const handleChangeFiltrePieces = (data, value) =>{
             // On parcours chaque localisations d'une ligne
             ligne.locationsDetails.locations.forEach((location) =>{
                 // Si une des localisations de la ligne est égale à la valeur du select qu'on a choisie dans le filtre des pèces
-                if(location.uuid.localeCompare(value) == 0){
+                if(location.uuid.localeCompare(value) === 0){
                     // On ajoute la ligne au tableau lignes
                     lignes.push(ligne);
                 }
@@ -80,9 +80,9 @@ const FilterBar = (props) =>{
                         onChange={(evt) => handleChangeFiltreLotsMetier(data, evt.target.value)}
                     >
                     {/* Correspond aux options du select. On map la liste de lots métiers qu'on a réçu des props pour afficher les valeurs */}
-                    {props.listeLotsMetier.map(function(item){
+                    {props.listeLotsMetier.map(function(item,i){
                         return (
-                            <MenuItem value={item.label}>{item.label}</MenuItem>
+                            <MenuItem key={i+'menu-select-1'} value={item.label}>{item.label}</MenuItem>
                         )
                     })}
                          {/* Option qui correspond aux prestations qui n'ont pas de localisation, on l'ajoute à la main car elle n'existe pas dans la liste listeLotsMetier */}
@@ -101,9 +101,9 @@ const FilterBar = (props) =>{
                         onChange={(evt) => handleChangeFiltrePieces(data, evt.target.value)}
                     >
                     {/* Correspond aux options du select. On map la liste des pièces qu'on a réçu des props pour afficher les valeurs */}
-                    {props.listePieces.map(function(item){
+                    {props.listePieces.map(function(item, i){
                         return (
-                            <MenuItem value={item.uuid}>{item.label}</MenuItem>
+                            <MenuItem key={i+'menu-select-2'} value={item.uuid}>{item.label}</MenuItem>
                         )
                     })}
                     </Select>

@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { HemeattProvider } from './hemeattContext'
 import {AppBar, Toolbar, IconButton, Typography,Container, LinearProgress} from '@material-ui/core';
+import { HemeattProvider } from './hemeattContext'
 import FilterBar from './components/filterBar';
 import ListContainer from './components/listContainer';
-import axios from 'axios';
 import './App.css';
 function App() {
 
@@ -17,29 +16,31 @@ function App() {
   // Un booleen qui permet d'indiquer si on est en train de charger la liste depuis l'api ou non
   const[loading, setLoading] = useState(true);
 
+  
+
   /** Fetch des données */
   // De manière général il vaut mieux pas utiliser useEffect pour fetch les données car d'après la doc, ils vont remanier la manière de fetch les données à l'avenir.
-  // Ils préconisent de rester sur une classe qui extends de React.Component et de fetch les données quand le composant se monte mais je ne le fais pas dans le cadre de cette application, car je m'autoforme sur les hooks.
-  useEffect(async () => {
-
-    const result = await axios(
-      'https://api.travauxlib.com/api/devis-pro/JKusHl8Ba8MABIjdCtLZOe2lxxnUfX',
-    );
+  // Ils (React community) préconisent de rester sur une classe qui extends de React.Component et de fetch les données quand le composant se monte mais je ne le fais pas dans le cadre de cette application, car je m'autoforme sur les hooks.
+  async function fetchApi() {
+    let res = await fetch('https://api.travauxlib.com/api/devis-pro/JKusHl8Ba8MABIjdCtLZOe2lxxnUfX');
+    let response = await res.json();
 
     // On stock dans le store la liste des fournitures à afficher.
     // Au départ on affiche toutes les données du json reçu car pas de filtre choisi.
     // FilteredList correspond à la liste de fournitures qui sera affichée à l'écran.
-    setData({'originalListe' : result.data.lots , 'filteredListe' : result.data.lots});
+    setData({'originalListe' : response.lots , 'filteredListe' : response.lots});
     // On défini la liste des lots métiers
-    setListeLotsMetier(result.data.lots);
+    setListeLotsMetier(response.lots);
     // On défini la liste des pièces
-    setlistePieces(result.data.locations);
+    setlistePieces(response.locations);
 
     // On est plus en train de charger la liste.
     setLoading(false);
-
+  }
+  
+  useEffect(() => {
+    fetchApi();
   }, []);
-
 
   return (
     <div>

@@ -10,10 +10,10 @@ const ListContainer = (props) =>{
             {props.listeFournitures.filteredListe.map((lot, i) =>{
                 return    (     
                     lot.lignes.map((ligne, k) => {
-                        {/* Pour chaque ligne d'un lot, on affiche un item Grid avec une Card dont les props seront les valeurs de la ligne */}    
                         return (
-                            <Grid item xs={4}>                          
-                                <Card {...ligne} />
+                            /* Pour chaque ligne d'un lot, on affiche un item Grid avec une Card dont les props seront les valeurs de la ligne */
+                            <Grid key={i+'grid-list-'+k} item xs={4}>                          
+                                <Card key={k+'card-list-'+i} {...ligne} />
                              </Grid>
                         )
                     })
